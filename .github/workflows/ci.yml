@@ -28,6 +28,7 @@ jobs:
       - name: Build
         uses: docker/build-push-action@v3
         with:
-          context: ./${{ matrix.php_version }}
+          context: .
+          file: ${{ matrix.php_version }}/Dockerfile
           push: true
           tags: php:${{ matrix.php_version }}
