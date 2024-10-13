@@ -31,4 +31,4 @@ jobs:
           context: .
           file: ${{ matrix.php_version }}/Dockerfile
           push: true
-          tags: php:${{ matrix.php_version }}
+          tags: ghcr.io/${{ github.actor }}/php-fpm:${{ matrix.php_version }}
