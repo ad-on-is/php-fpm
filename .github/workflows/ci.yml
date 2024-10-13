@@ -1,0 +1,32 @@
+name: CI - Build and push
+
+on:
+  push:
+    branches: master
+
+jobs:
+  build-and-push:
+    strategy:
+      fail-fast: false
+      matrix:
+        php_version:
+          - 8.3
+          - 8.2
+          - 8.1
+          - 8.0
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Log in to the Container registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build
+        uses: docker/build-push-action@v2
+        with:
+          context: ./${{ matrix.php_version }}
+          push: true
+          tags: php:${{ matrix.php_version }}
